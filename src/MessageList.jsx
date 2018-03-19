@@ -4,6 +4,7 @@ import Message from './Message.jsx'
 class MessageList extends Component {
 
   render() {
+    console.log("Rendering <MessageList/>");
     const messages = this.props.messages;
     const messageList = messages.map((message) => {
       return (
@@ -16,9 +17,7 @@ class MessageList extends Component {
     });
 
     return (
-      <main className="messages">
-        {messageList}
-      </main>
+      <main className="messages">{messageList}</main>
     );
   }
 }

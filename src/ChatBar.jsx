@@ -7,7 +7,7 @@ class ChatBar extends Component {
   }
 
   render() {
-
+    console.log("Rendering <ChatBar/>");
     const name = this.props.user.name;
 
     return (
