@@ -25,6 +25,28 @@ class App extends Component {
     }
   }
 
+  random() {
+    let letters = 'abcdefghijklmnopqrstuvwxyz';
+    let alphabet = `1234567890${letters}${letters.toUpperCase()}`;
+
+    let output = '';
+    for (let i = 0; i < 6; i+=1) {
+      output += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+    return output;
+  }
+
+  addNewMessage(messageText) {
+    const newMessageObj = {
+      id: this.random(),
+      username: this.state.currentUser.name,
+      content: messageText
+    };
+    const newMessages = this.state.messages.concat(newMessageObj);
+
+    this.setState({ messages: newMessages });
+  }
+
   componentDidMount() {
     console.log("componentDidMount <App />");
     setTimeout(() => {
@@ -44,7 +66,7 @@ class App extends Component {
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar user={this.state.currentUser} />
+        <ChatBar user={this.state.currentUser} newMessage={this.addNewMessage.bind(this)} />
       </div>
     );
   }
