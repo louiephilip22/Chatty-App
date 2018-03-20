@@ -13,6 +13,11 @@ class App extends Component {
       currentUser: { name: "Bob" },
       messages: []
     }
+    this.changeUserName = this.changeUserName.bind(this);
+  }
+
+  changeUserName(name) {
+    this.setState({ currentUser: { name }});
   }
 
   addNewMessage(messageText) {
@@ -42,7 +47,11 @@ class App extends Component {
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar user={this.state.currentUser} newMessage={this.addNewMessage.bind(this)} />
+        <ChatBar
+          user={this.state.currentUser.name}
+          onUserNameChange={this.changeUserName}
+          newMessage={this.addNewMessage.bind(this)}
+          />
       </div>
     );
   }

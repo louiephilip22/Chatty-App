@@ -35,7 +35,7 @@ wss.on('connection', (ws) => {
     const msgObj = JSON.parse(message);
     const newMsg = {id: uuidv1(), username: msgObj.username, content:  msgObj.content}
 
-    console.log(JSON.stringify(newMsg))
+    //console.log(JSON.stringify(newMsg)) for debugging only
     broadcast(JSON.stringify(newMsg));
   });
 
