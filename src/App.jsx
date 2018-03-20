@@ -48,7 +48,7 @@ class App extends Component {
         <NavBar />
         <MessageList messages={this.state.messages} />
         <ChatBar
-          user={this.state.currentUser.name}
+          username={this.state.currentUser.name}
           onUserNameChange={this.changeUserName}
           newMessage={this.addNewMessage.bind(this)}
           />
@@ -56,4 +56,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;
