@@ -34,13 +34,17 @@ class App extends Component {
 
   onUserNamePressEnter(event) {
     if (event.key === 'Enter') {
-      this.sendNotificationOfChangedUserName();
+      if (this.oldUserName !== this.state.currentUser.name) {
+        if(this.state.currentUser.name) {
+          this.sendNotificationOfChangedUserName();
+        }
+      }
     }
   }
 
   addNewMessage(messageText) {
 
-    if(this.oldUserName !== this.state.currentUser.name) {
+    if(this.oldUserName !== this.state.currentUser.name && this.state.currentUser.name !== undefined) {
       this.sendNotificationOfChangedUserName();
     }
     const newMessageObj = {
