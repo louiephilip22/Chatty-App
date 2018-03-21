@@ -24,7 +24,7 @@ class ChatBar extends Component {
     console.log("Rendering <ChatBar/>");
 
     const { messageText } = this.state;
-    const { onUserNameChange, username } = this.props;
+    const { onUserNameChange, onUserNamePressEnter, username } = this.props;
 
     return (
       <footer className="chatbar">
@@ -32,14 +32,15 @@ class ChatBar extends Component {
           className="chatbar-username"
           defaultValue={username}
           onChange={ e => onUserNameChange(e.target.value) }
-          />
+          onKeyPress={ e => onUserNamePressEnter(e) }
+        />
         <input
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"
           value={messageText}
           onChange={this.onMessageTextChange}
           onKeyPress={this.onMessageTextPressEnter}
-          />
+        />
       </footer>
     );
   }

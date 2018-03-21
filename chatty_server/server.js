@@ -1,6 +1,6 @@
 const express = require('express');
 const WebSocket = require('ws');
-const uuidv1 = require('uuid/v1');
+const uuidV1 = require('uuid/v1');
 
 const SocketServer = WebSocket.Server;
 
@@ -27,18 +27,44 @@ function broadcast(data) {
   }
 }
 
+function broadcastNumConnected(num, type) {
+  const msgNumUsers = {
+    id: uuidV1(),
+    username: 'System',
+    type: 'numberUsersConnectedNotification',
+    numberUsersConnected: num,
+    content: `A user ${type} the channel.`
+  };
+  broadcast(JSON.stringify(msgNumUsers));
+}
+
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
 
-  // Get message from client, set UUID and save to array "messages"
+  broadcastNumConnected(wss.clients.size, 'joined');
+
+
+  // Get message from client, set UUID and broadcast
   ws.on('message', (message) => {
     const msgObj = JSON.parse(message);
-    const newMsg = {id: uuidv1(), username: msgObj.username, content:  msgObj.content}
-
-    //console.log(JSON.stringify(newMsg)) for debugging only
-    broadcast(JSON.stringify(newMsg));
+    let newMsg = '';
+    switch (msgObj.type) {
+      case 'postNotification':
+        newMsg = {id: uuidV1(), type: 'incomingNotification', username: 'System', content:  `${msgObj.oldUserName} changed their name to ${msgObj.newUserName}`}
+        broadcast(JSON.stringify(newMsg));
+        break;
+      default:
+        newMsg = {id: uuidV1(), type: 'incomingMessage', username: msgObj.username, content:  msgObj.content}
+        broadcast(JSON.stringify(newMsg));
+      }
   });
 
   ws.on('error', () => {});
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+
+    broadcastNumConnected(wss.clients.size, 'left');
+  });
 });
+
