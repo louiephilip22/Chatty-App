@@ -9,11 +9,11 @@ class App extends Component {
     super(props);
     this.socket = new WebSocket('ws://localhost:3001');
     this.state = {
-      currentUser: {name: 'Anonymous'},
+      currentUser: {name: ''},
       messages: [],
       numberUsersConnected: ''
     }
-    this.oldUserName = this.state.currentUser.name;
+    this.oldUserName = 'Anonymous';
     this.changeUserName = this.changeUserName.bind(this);
     this.onUserNamePressEnter=this.onUserNamePressEnter.bind(this);
   }
@@ -43,17 +43,24 @@ class App extends Component {
   }
 
   addNewMessage(messageText) {
-
-    if(this.oldUserName !== this.state.currentUser.name && this.state.currentUser.name !== undefined) {
-      this.sendNotificationOfChangedUserName();
+    if (this.state.currentUser.name) {
+      if(this.oldUserName !== this.state.currentUser.name) {
+        this.sendNotificationOfChangedUserName();
+      }
+      const newMessageObj = {
+        type: 'postMessage',
+        username: this.state.currentUser.name,
+        content: messageText
+      }
+      this.socket.send(JSON.stringify(newMessageObj));
+    } else if (!this.state.currentUserName) {
+      const newMessageObj = {
+        type: 'postMessage',
+        username: 'Anonymous',
+        content: messageText
+      }
+      this.socket.send(JSON.stringify(newMessageObj));
     }
-    const newMessageObj = {
-      type: 'postMessage',
-      username: this.state.currentUser.name,
-      content: messageText
-    };
-
-    this.socket.send(JSON.stringify(newMessageObj));
   }
 
   componentDidMount() {

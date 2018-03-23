@@ -31,6 +31,7 @@ class ChatBar extends Component {
     return (
       <footer className="chatbar">
         <input
+          placeholder="Your name (OPTIONAL)"
           className="chatbar-username"
           defaultValue={username}
           onChange={ e => onUserNameChange(e.target.value) }
