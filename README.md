@@ -5,7 +5,7 @@ Chatty App is a chat web SPA (Single Page Application), like Slack or WhatsApp, 
 ## Final Product
 
 <p align="center">
-  <img src="" alt="Sublime's custom image"/>
+  <img src="https://github.com/louiephilip22/Chatty-App/blob/master/images/Screen%20Shot%202018-03-23%20at%2011.30.07%20AM.png"/>
 </p>
 
 ## Dependencies
